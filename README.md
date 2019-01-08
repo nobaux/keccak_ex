@@ -2,8 +2,6 @@
 
 Small library for handling Keccak in Elixir.
 
-Full list of functions can be found on [https://hexdocs.pm/keccak_ex](https://hexdocs.pm/keccak_ex/doc/Keccak.html)
-
 ## Usage
 
 Add dependency in your mix.exs:

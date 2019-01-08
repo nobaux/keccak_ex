@@ -5,13 +5,13 @@ defmodule KeccakEx.MixProject do
     [
       app: :keccak_ex,
       version: "0.1.0",
-      elixir: "~> 1.5",
+      elixir: "~> 1.7",
       start_permanent: Mix.env() == :prod,
       deps: deps(),
       description: description(),
       package: package(),
       name: "KeccakEx",
-      source_url: ["https://github.com/N-0x90/keccak_ex"]
+      # source_url: ["https://github.com/N-0x90/keccak_ex"]
     ]
   end
 
@@ -21,7 +21,7 @@ defmodule KeccakEx.MixProject do
 
   defp deps do
     [
-      {:ex_doc, "~> 0.19.2", only: :dev},
+      {:ex_doc, "~> 0.19", only: :dev, runtime: false},
       {:binary, "~> 0.0.5"},
     ]
   end
