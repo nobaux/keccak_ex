@@ -11,7 +11,7 @@ defmodule KeccakEx.MixProject do
       description: description(),
       package: package(),
       name: "KeccakEx",
-      source_url: "https://github.com/N-0x90/keccak_ex"]
+      source_url: ["https://github.com/N-0x90/keccak_ex"]
     ]
   end
 
