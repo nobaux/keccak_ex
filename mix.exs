@@ -10,6 +10,8 @@ defmodule KeccakEx.MixProject do
       deps: deps(),
       description: description(),
       package: package(),
+      name: "KeccakEx",
+      source_url: "https://github.com/N-0x90/keccak_ex"]
     ]
   end
 
@@ -34,7 +36,8 @@ defmodule KeccakEx.MixProject do
     [
       files: ["lib", "test", "mix.exs", "README.md"],
       maintainers: ["N0x90"],
-      licenses: ["MIT"]
+      licenses: ["MIT"],
+      links: %{"GitHub" => "https://github.com/N-0x90/keccak_ex"}
     ]
   end
 end
