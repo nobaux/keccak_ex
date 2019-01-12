@@ -1,6 +1,6 @@
 # KeccakEx
 
-Small library for handling Keccak in Elixir.
+Small library for handling Keccak 256 in Elixir.
 
 ## Usage
 
