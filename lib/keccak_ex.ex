@@ -35,8 +35,9 @@ defmodule KeccakEx do
       iex> key = "7adf4255f518ca27b9b41ddfd97d4a3799e02347b3b1b7c525b67371b3db350a571b3bddb9732868daeab70f9ac9bd842c8b26e605855899f32f8526c2e6d5ed"
       iex> decoded = Base.decode16!(key, case: :mixed)
       iex> KeccakEx.hash(decoded)
-      <<170, 68, 45, 42, 41, 217, 15, 232, 186, 206, 34, 243, 192, 82, 108, 106, 32,
-      101, 82, 84, 88, 175, 210, 186, 65, 191, 240, 51, 185, 140, 72, 181>>
+      <<170, 68, 45, 42, 41, 217, 15, 232, 186, 206, 34, 243, 192, 82,
+              108, 106, 223, 154, 173, 171, 167, 80, 45, 69, 65, 191, 240, 51,
+              185, 140, 72, 181>>
   """
   def hash(input) do
     list =
@@ -139,6 +140,7 @@ defmodule KeccakEx do
 
   defp encode(%__MODULE__{} = data) do
     a01 = data.state |> Enum.at(1)
+    a02 = data.state |> Enum.at(2)
     a08 = data.state |> Enum.at(8)
     a12 = data.state |> Enum.at(12)
     a17 = data.state |> Enum.at(17)
@@ -147,6 +149,7 @@ defmodule KeccakEx do
     state =
       data.state
       |> List.replace_at(1, ~~~a01 &&& 0xFFFFFFFFFFFFFFFF)
+      |> List.replace_at(2, ~~~a02 &&& 0xFFFFFFFFFFFFFFFF)
       |> List.replace_at(8, ~~~a08 &&& 0xFFFFFFFFFFFFFFFF)
       |> List.replace_at(12, ~~~a12 &&& 0xFFFFFFFFFFFFFFFF)
       |> List.replace_at(17, ~~~a17 &&& 0xFFFFFFFFFFFFFFFF)
