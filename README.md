@@ -1,4 +1,4 @@
-# KeccakEx - NO OPTIMIZED
+# KeccakEx
 
 Small library for handling Keccak in Elixir.
 
@@ -9,7 +9,7 @@ Add dependency in your mix.exs:
 ```elixir
 def deps do
   [
-    {:keccak_ex, "~> 0.1.0"}
+    {:keccak_ex, "~> 0.1.1"}
   ]
 end
 ```
