@@ -18,6 +18,16 @@ defmodule KeccakEx do
     0x8000000080008081, 0x8000000000008080, 0x0000000080000001, 0x8000000080008008
   ]
 
+  @initial_state [
+    0x0000000000000000, 0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF, 0x0000000000000000,
+    0x0000000000000000, 0x0000000000000000, 0x0000000000000000, 0x0000000000000000,
+    0xFFFFFFFFFFFFFFFF, 0x0000000000000000, 0x0000000000000000, 0x0000000000000000,
+    0xFFFFFFFFFFFFFFFF, 0x0000000000000000, 0x0000000000000000, 0x0000000000000000,
+    0x0000000000000000, 0xFFFFFFFFFFFFFFFF, 0x0000000000000000, 0x0000000000000000,
+    0xFFFFFFFFFFFFFFFF, 0x0000000000000000, 0x0000000000000000, 0x0000000000000000,
+    0x0000000000000000
+  ]
+
   @digest_length 32
 
   defstruct input: nil,
@@ -40,21 +50,12 @@ defmodule KeccakEx do
               185, 140, 72, 181>>
   """
   def hash(input) do
-    list =
-      List.duplicate(0, 25)
-      |> List.replace_at(1, 0xFFFFFFFFFFFFFFFF)
-      |> List.replace_at(2, 0xFFFFFFFFFFFFFFFF)
-      |> List.replace_at(8, 0xFFFFFFFFFFFFFFFF)
-      |> List.replace_at(12, 0xFFFFFFFFFFFFFFFF)
-      |> List.replace_at(17, 0xFFFFFFFFFFFFFFFF)
-      |> List.replace_at(20, 0xFFFFFFFFFFFFFFFF)
-
     data = %__MODULE__{
       input: input,
       fixed_input_size: byte_size(input),
       input_length: 0,
       buffer: <<0>>,
-      state: list
+      state: @initial_state
     }
 
     update(data)
