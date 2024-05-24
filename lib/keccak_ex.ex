@@ -62,6 +62,14 @@ defmodule KeccakEx do
     |> digest()
   end
 
+  @doc """
+  Returns the keccak hash.
+  This is the same function created for this module to be used instead of `ExKecak.hash256`.
+  """
+  def hash_256(input) do
+    hash(input)
+  end
+
   defp update(%__MODULE__{} = value) do
     update_loop(value, 0, 0, value.fixed_input_size)
   end
