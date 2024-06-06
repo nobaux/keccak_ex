@@ -40,7 +40,7 @@ defmodule Hash.Hash256 do
     data = %__MODULE__{
       input: input,
       input_length: 0,
-      buffer: <<0>>,
+      buffer: pad_trailing(<<0>>, @block_length),
       state: @initial_state
     }
 
@@ -81,9 +81,9 @@ defmodule Hash.Hash256 do
   end
 
   defp padding(%__MODULE__{} = value) do
-    fix = if (byte_size(value.buffer) + 1) == value.input_length do
+    fix = if (value.input_length + 1) == byte_size(value.buffer) do
       value.buffer
-      |> take(134)
+      |> binary_part(0, value.input_length)
       |> set_value(<<0x81>>)
     else
       value.buffer

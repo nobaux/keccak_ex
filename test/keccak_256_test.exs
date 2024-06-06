@@ -24,6 +24,28 @@ defmodule Keccak256Test do
     assert Base.encode16(address, case: :lower) == "73bb50c828fd325c011d740fde78d02528826156"
   end
 
+  test "returns expected hash 2" do
+    data =
+      Base.decode64!(
+        "NRFFf++/vTdsF3Zybg8P77+977+9Mu+/vTHvv73vv70t77+9YO+/ve+/ve+/vWDvv71mBmxFWe+/ve+/ve+/ve+/vUTvv70KaO+/ve+/ve+/vU3vv71/77+977+9Be+/ve+/vXfvv73vv73vv71177+9Iu+/ve+/vXtsa++/vR5p77+9cu+/vRpxzoDvv71O77+977+9bX0PKV94ZVYQRAzvv704Ae+/ve+/ve+/vT90IO+/ve+/ve+/ve+/ve+/vSDvv73vv71T77+9CWDvv70bd++/vWrvv70r77+9Je+/vWXvv70FTe+/ve+/vVHvv71CcG3vv70877+9MnDvv73vv71Tenvvv701au+/vQ=="
+      )
+
+    hashed_data = KeccakEx.hash_256(data)
+
+    assert Base.encode16(hashed_data, case: :lower) == "448773b97c6ba19b01af1950c1d272bc660188eaea57c8a9a7b7e97e8f8d09cc"
+  end
+
+  test "returns expected hash 3" do
+    data =
+      Base.decode64!(
+        "KEjVmd+5Ue+/vTNTWSjvv73vv73cmu+/vVHvv71CCu+/vT/vv73vv70VNQDvv70oPu+/vT3vv73vv73vv73vv70877+9UUFn77+9UntM3LHvv73vv73vv73vv73ZnBDvv73vv73NmO+/ve+/ve+/vUjvv73vv73vv73vv73Qnu+/ve+/vSTvv71777+977+977+96K2OO++/vW8V77+977+9Yu+/ve+/vXDvv73vv73vv73vv71177+977+9Qu+/ve+/ve+/ve+/ve+/ve+/ve+/ve+/vRc177+9YT/vv73vv70TK++/ve+/vQc377+9EFFrPh4Of++/vSTvv70s77+977+9E37vv73vv73vv70NNnTvv73vv73vv73vv71J77+9Oe+/vVdM77+977+977+9TNO7aO+/vUdBRu+/ve+/vU0F77+977+91KXvv73vv71TAHPvv73vv73Gv++/vTvvv71IeDUN77+9GBEJPu+/vXM2Te+/ve+/vSA4Te+/ve+/vUTEpG3vv700KiPvv73vv73vv70="
+      )
+
+    hashed_data = KeccakEx.hash_256(data)
+
+    assert Base.encode16(hashed_data, case: :lower) == "99e22c8d749ab49cf7c95e6aeb097a0cc59f34fad41c65ff172f54a521e93f1a"
+  end
+
   test "hash hello" do
     data = "hello"
 

@@ -25,6 +25,28 @@ defmodule Keccak512Test do
     assert Base.encode16(address, case: :lower) == "a8a7ba9eb805dd98b43914991b80d000c39c6627336e5d415bcbe09d7df0853a4ebafa02ec115f362299ebf009747de0f48c1d12"
   end
 
+  test "returns expected hash 2" do
+    data =
+      Base.decode64!(
+        "77+9eA0U77+977+9H86BZO+/vSIuEV4PAQYzGVjvv73vv73vv73vv70R77+977+977+977+977+977+9Y1k8y7ZA77+9XR/vv71M77+977+9H2ZcW++/ve+/ve+/ve+/ve+/vRvvv71t7pu4NwUYNy8iKVvvv70qNe+/vXDvv73vv73vv71W77+977+9Hxo="
+      )
+
+    hashed_data = KeccakEx.hash_512(data)
+
+    assert Base.encode16(hashed_data, case: :lower) == "f5d74ac8a6cc5cf3d585ac2a27fc134af3bed07161375262252ce0be46970f67c305c269dd5edda69afbb089a398173dea53c916d63e9b77c8fc302c2c0604c1"
+  end
+
+  test "returns expected hash 3" do
+    data =
+      Base.decode64!(
+        "FO+/vcybKO+/vRfvv70iUADmk53vv73vv713DEUTf0zvv73vv71rKRnvv70x77+9b++/ve+/ve+/vTrvv70kXgfvv73vv73vv73vv70XTXvvv73vv73vv70M77+9GnNZDu+/ve+/vQDvv73vv71rbkLvv71p77+977+9I8KV77+977+977+977+9f2HRpRwSZHHvv73FmUjvv71CHGoMEe+/vSrvv70A77+977+9d3Dvv73vv73vv70hV++/ve+/ve+/vR9Y77+9IO+/vXnvv71K77+9LC8="
+      )
+
+    hashed_data = KeccakEx.hash_512(data)
+
+    assert Base.encode16(hashed_data, case: :lower) == "9c7acdc6583082fae909421f20ed5fee7e875c82de668cfb5f4c9ae2a4dd15984537a3e56e3bf3aaee38d0ec2fe357e1b170b3e1a51767638e7afed6e1f66fb6"
+  end
+
   test "hash_512 hello" do
     data = "hello"
 
