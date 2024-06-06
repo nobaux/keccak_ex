@@ -3,8 +3,6 @@ defmodule KeccakEx do
   Implementation of Keccak in pure Elixir.
 
   From: https://github.com/tronprotocol/java-http-client/blob/master/src/main/java/org/tron/common/crypto/cryptohash/KeccakCore.java
-
-  Not full implemented.
   """
 
   import Bitwise
@@ -33,8 +31,9 @@ defmodule KeccakEx do
 
   @digest_length 32
 
+  @block_length 200 - 2 * @digest_length
+
   defstruct input: nil,
-            fixed_input_size: 0,
             input_length: nil,
             buffer: nil,
             state: nil,
@@ -55,7 +54,6 @@ defmodule KeccakEx do
   def hash(input) do
     data = %__MODULE__{
       input: input,
-      fixed_input_size: byte_size(input),
       input_length: 0,
       buffer: <<0>>,
       state: @initial_state
@@ -74,20 +72,20 @@ defmodule KeccakEx do
   end
 
   defp update(%__MODULE__{} = value) do
-    update_loop(value, 0, 0, value.fixed_input_size)
+    update_loop(value, 0, 0, byte_size(value.input))
   end
 
   defp update_loop(%__MODULE__{} = value, input_length, offset, length) when length > 0 do
-    copy_length = input_length |> get_copy_length(length)
+    copy_length = get_copy_length(input_length, length)
 
     copied = copy(value.input, offset, value.buffer, input_length, copy_length)
 
-    data = %{value | buffer: copied, input_length: input_length + copy_length}
+    data = %{value | buffer: copied, input_cut: copied, input_length: input_length + copy_length}
 
-    if input_length == block_length() do
-      #        processBlock(inputBuf);
-      #        inputLen = 0;
-      raise "No implemented"
+    if (input_length + copy_length) == @block_length do
+      data
+      |> process_block()
+      |> update_loop(0, offset + copy_length, length - copy_length)
     else
       data
       |> update_loop(input_length + copy_length, offset + copy_length, length - copy_length)
@@ -106,37 +104,38 @@ defmodule KeccakEx do
   end
 
   defp padding(%__MODULE__{} = value) do
-    fix = if (byte_size(value.buffer) + 1) == 136 do
+    fix = if (byte_size(value.buffer) + 1) == value.input_length do
       value.buffer
       |> take(134)
       |> set_value(<<0x81>>)
     else
       value.buffer
-      |> trim_trailing()
+      |> binary_part(0, value.input_length)
       |> set_value(<<1>>)
-      |> pad_trailing(136)
-      |> take(135)
+      |> pad_trailing(@block_length)
+      |> take(@block_length - 1)
       |> set_value(<<0x80>>)
     end
 
     %{value | buffer: fix, input_cut: fix}
   end
 
-  defp copy(source, source_index, destination, _destination_index, length) do
+  defp copy(source, source_index, destination, destination_index, length) do
     data = binary_part(source, source_index, length)
 
     destination_trim = destination |> trim_trailing()
+
     if byte_size(destination_trim) == 0 do
       data |> pad_trailing(byte_size(destination))
-    #else
-      #start = binary_part(destination, destination_index, length)
-      #final = binary_part(destination, destination_index + length, byte_size(destination))
-      #start ++ data ++ final
+    else
+      start = binary_part(destination, 0, destination_index)
+      final = binary_part(destination, destination_index + length, byte_size(destination) - destination_index - length)
+      start <> data <> final
     end
   end
 
   defp get_copy_length(input_length, length) do
-    copy_length = block_length() - input_length
+    copy_length = @block_length - input_length
     if copy_length > length do
       length
     else
@@ -146,7 +145,7 @@ defmodule KeccakEx do
 
   defp process_block(%__MODULE__{} = data) do
     data
-    |> process_block_decode_loop(0, data.fixed_input_size)
+    |> process_block_decode_loop(0)
     |> process_block_loop(0)
   end
 
@@ -618,7 +617,7 @@ defmodule KeccakEx do
     value
   end
 
-  defp process_block_decode_loop(%__MODULE__{} = value, index, max) when index < 136 do
+  defp process_block_decode_loop(%__MODULE__{} = value, index) when index < @block_length do
     decode_index = index >>> 3
     current = Enum.at(value.state, decode_index)
     {value2, tail} = value.input_cut |> decode_long()
@@ -626,10 +625,10 @@ defmodule KeccakEx do
     update_list = List.replace_at(value.state, decode_index, long)
 
     %{value | state: update_list, input_cut: tail}
-    |> process_block_decode_loop(index + 8, max)
+    |> process_block_decode_loop(index + 8)
   end
 
-  defp process_block_decode_loop(%__MODULE__{} = data, _index, _max) do
+  defp process_block_decode_loop(%__MODULE__{} = data, _index) do
     data
   end
 
@@ -646,9 +645,5 @@ defmodule KeccakEx do
     ||| (a &&& 0xFF) <<< 56
 
     {long, tail}
-  end
-
-  defp block_length() do
-    200 - 2 * @digest_length
   end
 end
