@@ -34,7 +34,7 @@ defmodule Hash.Hash512 do
             input_cut: nil
 
   @doc """
-  Returns the keccak 256 hash.
+  Returns the keccak 512 hash.
   """
   def hash(input) do
     data = %__MODULE__{
