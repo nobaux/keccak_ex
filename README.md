@@ -9,7 +9,7 @@ Add dependency in your mix.exs:
 ```elixir
 def deps do
   [
-    {:keccak_ex, "~> 0.4.0"}
+    {:keccak_ex, "~> 0.4.1"}
   ]
 end
 ```

@@ -1,5 +1,4 @@
 defmodule KeccakEx do
-
   @moduledoc """
   Implementation of Keccak in pure Elixir.
   """
