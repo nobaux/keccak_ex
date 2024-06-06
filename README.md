@@ -1,6 +1,6 @@
 # KeccakEx
 
-Small library for handling Keccak 256 in Elixir.
+Small library for handling Keccak 256/512 in pure Elixir.
 
 ## Usage
 
@@ -9,7 +9,7 @@ Add dependency in your mix.exs:
 ```elixir
 def deps do
   [
-    {:keccak_ex, "~> 0.1.3"}
+    {:keccak_ex, "~> 0.4.0"}
   ]
 end
 ```
