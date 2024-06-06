@@ -1,43 +1,42 @@
 defmodule KeccakEx.MixProject do
   use Mix.Project
 
+  @source_url "https://github.com/N-0x90/keccak_ex"
+
   def project do
     [
       app: :keccak_ex,
-      version: "0.2.0",
+      version: "0.3.0",
       elixir: "~> 1.16.0",
       start_permanent: Mix.env() == :prod,
       deps: deps(),
       description: description(),
       package: package(),
-      name: "KeccakEx",
-      # source_url: ["https://github.com/N-0x90/keccak_ex"]
+      source_url: @source_url,
+      name: "KeccakEx"
     ]
-  end
-
-  def application do
-    []
   end
 
   defp deps do
     [
       {:ex_doc, "~> 0.25.5", only: :dev, runtime: false},
       {:binary, "~> 0.0.5"},
+      {:benchee, "~> 1.0", only: :test},
     ]
   end
 
   defp description do
     """
-    Implementation of Keccak in Elixir.
+    Implementation of Keccak 256 in pure Elixir.
     """
   end
 
   defp package do
     [
-      files: ["lib", "test", "mix.exs", "README.md"],
+      files: ["lib", "test", "mix.exs", "README.md", "LICENSE"],
       maintainers: ["N0x90"],
       licenses: ["MIT"],
-      links: %{"GitHub" => "https://github.com/N-0x90/keccak_ex"}
+      links: %{"GitHub" => @source_url}
     ]
   end
 end
