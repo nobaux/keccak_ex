@@ -7,7 +7,7 @@ defmodule KeccakEx.MixProject do
     [
       app: :keccak_ex,
       version: "0.4.1",
-      elixir: "~> 1.16.0",
+      elixir: "~> 1.16",
       start_permanent: Mix.env() == :prod,
       deps: deps(),
       description: description(),
@@ -21,7 +21,7 @@ defmodule KeccakEx.MixProject do
     [
       {:ex_doc, "~> 0.34.0", only: :dev, runtime: false},
       {:binary, "~> 0.0.5"},
-      {:benchee, "~> 1.0", only: :test},
+      {:benchee, "~> 1.0", only: :test}
     ]
   end
 
