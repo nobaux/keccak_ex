@@ -1,12 +1,12 @@
 defmodule KeccakEx.MixProject do
   use Mix.Project
 
-  @source_url "https://github.com/N-0x90/keccak_ex"
+  @source_url "https://github.com/nobaux/keccak_ex"
 
   def project do
     [
       app: :keccak_ex,
-      version: "0.4.1",
+      version: "0.4.2",
       elixir: "~> 1.16",
       start_permanent: Mix.env() == :prod,
       deps: deps(),
